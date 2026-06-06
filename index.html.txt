@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Industry Training Assessment Platform</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#ffffff;
+color:#1a1a1a;
+}
+
+.container{
+width:95%;
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+
+.hidden{
+display:none;
+}
+
+h1,h2,h3{
+color:#0b2d5c;
+}
+
+.btn{
+background:linear-gradient(135deg,#0b2d5c,#ff4fa3);
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+transition:.3s;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+.card{
+background:white;
+padding:25px;
+margin-top:20px;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+.hero{
+text-align:center;
+padding:60px 20px;
+}
+
+.hero h1{
+font-size:3rem;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:1.1rem;
+line-height:1.7;
+}
+
+.features{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-top:40px;
+}
+
+.feature{
+padding:20px;
+background:#f7f9fc;
+border-radius:15px;
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin-top:8px;
+margin-bottom:15px;
+border:1px solid #ddd;
+border-radius:8px;
+}
+
+.timer{
+position:sticky;
+top:0;
+background:#0b2d5c;
+color:white;
+padding:15px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+z-index:999;
+border-radius:10px;
+margin-bottom:15px;
+}
+
+.question{
+margin-bottom:25px;
+padding:15px;
+background:#f9fbff;
+border-radius:10px;
+}
+
+.question p{
+font-weight:600;
+margin-bottom:10px;
+}
+
+.option{
+margin:8px 0;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+table th,table td{
+padding:12px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+table th{
+background:#0b2d5c;
+color:white;
+}
+
+.nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 30px;
+background:#0b2d5c;
+color:white;
+}
+
+.badge{
+background:#ff4fa3;
+padding:8px 15px;
+border-radius:20px;
+color:white;
+}
+
+@media(max-width:768px){
+.hero h1{
+font-size:2rem;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME PAGE -->
+
+<div id="homePage">
+
+<div class="nav">
+<h2>Embedded & IoT Assessment Platform</h2>
+<button class="btn" onclick="showLogin()">Sign In</button>
+</div>
+
+<div class="container">
+
+<div class="hero">
+<h1>Industry Training Assessment Platform</h1>
+
+<p>
+Assess student competency in Embedded Systems and IoT Industry Training Programs.
+This platform enables automated topic-based assessments, performance tracking,
+analytics, Bloom's Taxonomy-based evaluation, and real-time monitoring by administrators.
+</p>
+
+<div class="features">
+
+<div class="feature">
+<h3>Industry Ready Skills</h3>
+<p>Evaluate analytical and problem-solving capabilities.</p>
+</div>
+
+<div class="feature">
+<h3>Bloom's Taxonomy</h3>
+<p>Analyze-level MCQs for higher-order thinking.</p>
+</div>
+
+<div class="feature">
+<h3>Automated Assessment</h3>
+<p>Instant score calculation and performance reports.</p>
+</div>
+
+<div class="feature">
+<h3>Admin Analytics</h3>
+<p>Track overall student performance and outcomes.</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- LOGIN PAGE -->
+
+<div id="loginPage" class="hidden">
+
+<div class="container">
+<div class="card">
+
+<h2>Login</h2>
+
+<select id="userType">
+<option value="">Select User Type</option>
+<option value="student">Student</option>
+<option value="admin">Admin</option>
+</select>
+
+<input type="text" id="username" placeholder="Username">
+
+<input type="password" id="password" placeholder="Password">
+
+<button class="btn" onclick="login()">Login</button>
+
+</div>
+</div>
+
+</div>
+
+<!-- ADMIN DASHBOARD -->
+
+<div id="adminPage" class="hidden">
+
+<div class="container">
+
+<div class="card">
+<h2>Admin Dashboard</h2>
+
+<label>Upload Assessment Topic</label>
+
+<input type="text" id="topicName"
+placeholder="Example: IoT Communication Protocols">
+
+<button class="btn" onclick="saveTopic()">Save Topic</button>
+
+<h3 style="margin-top:20px;">Student Performance</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Roll No</th>
+<th>Topic</th>
+<th>Score</th>
+<th>Percentage</th>
+</tr>
+</thead>
+
+<tbody id="adminTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- STUDENT PAGE -->
+
+<div id="studentPage" class="hidden">
+
+<div class="container">
+
+<div class="card">
+
+<h2>Student Details</h2>
+
+<input type="text" id="studentName" placeholder="Student Name">
+
+<input type="text" id="rollNo" placeholder="Roll Number">
+
+<input type="text" id="year" placeholder="Year">
+
+<input type="text" id="dept" placeholder="Department">
+
+<input type="text" id="section" placeholder="Section">
+
+<label>Select Topic</label>
+
+<select id="topicSelect"></select>
+
+<button class="btn" onclick="startExam()">
+Start Assessment
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- EXAM PAGE -->
+
+<div id="examPage" class="hidden">
+
+<div class="container">
+
+<div class="timer" id="timer">
+20:00
+</div>
+
+<form id="quizForm">
+
+<div id="questionsContainer"></div>
+
+<button type="button" class="btn"
+onclick="submitExam()">
+Submit Assessment
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<!-- RESULT PAGE -->
+
+<div id="resultPage" class="hidden">
+
+<div class="container">
+
+<div class="card">
+
+<h2>Student Dashboard</h2>
+
+<div id="resultContent"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+// Sample Analyze-Level MCQs
+
+const questions = [
+
+{
+q:"Which architecture provides better scalability for IoT devices in smart cities?",
+o:["Centralized","Distributed","Standalone","Isolated"],
+a:1
+},
+
+{
+q:"A sensor node battery drains quickly. Which factor should be analyzed first?",
+o:["Colour","Network traffic","Packaging","Brand"],
+a:1
+},
+
+{
+q:"Why is MQTT preferred over HTTP in constrained IoT devices?",
+o:["Larger packets","High bandwidth use","Lightweight communication","No protocol"],
+a:2
+},
+
+{
+q:"A gateway fails intermittently. Which layer should be analyzed first?",
+o:["Application","Physical","Transport","Network"],
+a:3
+},
+
+{
+q:"Which protocol best supports machine-to-machine communication?",
+o:["MQTT","FTP","SMTP","POP3"],
+a:0
+},
+
+{
+q:"How does edge computing improve IoT performance?",
+o:["Increase latency","Reduce processing","Reduce latency","Disable analytics"],
+a:2
+},
+
+{
+q:"Why is sensor fusion used?",
+o:["Reduce data quality","Improve accuracy","Increase noise","Reduce storage"],
+a:1
+},
+
+{
+q:"What is the primary risk of unsecured IoT devices?",
+o:["Faster speed","Cyber attacks","Better battery","None"],
+a:1
+},
+
+{
+q:"Which topology failure impacts all nodes most?",
+o:["Mesh","Star Hub Failure","Tree","Hybrid"],
+a:1
+},
+
+{
+q:"Why use RTOS in embedded systems?",
+o:["Predictable response","Random execution","No scheduling","No memory"],
+a:0
+},
+
+{
+q:"Which metric helps analyze network reliability?",
+o:["Packet Loss","Logo","Colour","Font"],
+a:0
+},
+
+{
+q:"Why use watchdog timers?",
+o:["Reset failures","Increase bugs","Reduce RAM","Increase power"],
+a:0
+},
+
+{
+q:"Which analysis helps optimize power consumption?",
+o:["Energy profiling","Logo design","Marketing","Branding"],
+a:0
+},
+
+{
+q:"Why is LoRa suitable for agriculture IoT?",
+o:["Short range","High power","Long-range low power","No connectivity"],
+a:2
+},
+
+{
+q:"Which factor affects cloud-to-device latency most?",
+o:["Network delay","Logo","Color theme","Brand name"],
+a:0
+}
+
+];
+
+let timeLeft = 1200;
+let timer;
+
+function showLogin(){
+homePage.classList.add("hidden");
+loginPage.classList.remove("hidden");
+}
+
+function login(){
+
+let type=document.getElementById("userType").value;
+let user=document.getElementById("username").value;
+let pass=document.getElementById("password").value;
+
+if(type==="" || user==="" || pass===""){
+alert("Fill all fields");
+return;
+}
+
+loginPage.classList.add("hidden");
+
+if(type==="admin"){
+adminPage.classList.remove("hidden");
+loadAdminData();
+}
+else{
+studentPage.classList.remove("hidden");
+loadTopics();
+}
+}
+
+function saveTopic(){
+
+let topic=document.getElementById("topicName").value;
+
+if(topic===""){
+alert("Enter topic");
+return;
+}
+
+localStorage.setItem("assessmentTopic",topic);
+
+alert("Topic Saved");
+}
+
+function loadTopics(){
+
+let topic=localStorage.getItem("assessmentTopic") ||
+"Embedded Systems";
+
+topicSelect.innerHTML=
+`<option>${topic}</option>`;
+}
+
+function startExam(){
+
+let name=studentName.value;
+let roll=rollNo.value;
+let yr=year.value;
+let dep=dept.value;
+let sec=section.value;
+
+if(
+name==="" ||
+roll==="" ||
+yr==="" ||
+dep==="" ||
+sec===""){
+alert("Complete all details");
+return;
+}
+
+studentPage.classList.add("hidden");
+examPage.classList.remove("hidden");
+
+renderQuestions();
+
+startTimer();
+}
+
+function renderQuestions(){
+
+let html="";
+
+questions.forEach((q,index)=>{
+
+html+=`
+<div class="question">
+
+<p>${index+1}. ${q.q}</p>
+
+${q.o.map((opt,i)=>
+`
+<div class="option">
+<label>
+<input type="radio"
+name="q${index}"
+value="${i}">
+${opt}
+</label>
+</div>
+`
+).join("")}
+
+</div>
+`;
+});
+
+questionsContainer.innerHTML=html;
+}
+
+function startTimer(){
+
+timer=setInterval(()=>{
+
+timeLeft--;
+
+let m=Math.floor(timeLeft/60);
+let s=timeLeft%60;
+
+timer.innerHTML=
+`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+if(timeLeft<=0){
+submitExam();
+}
+
+},1000);
+}
+
+function submitExam(){
+
+clearInterval(timer);
+
+let score=0;
+
+questions.forEach((q,index)=>{
+
+let selected=
+document.querySelector(
+`input[name="q${index}"]:checked`
+);
+
+if(selected &&
+parseInt(selected.value)===q.a){
+score++;
+}
+});
+
+let percentage=
+((score/questions.length)*100)
+.toFixed(2);
+
+let result={
+name:studentName.value,
+roll:rollNo.value,
+topic:topicSelect.value,
+score:score,
+percentage:percentage
+};
+
+let records=
+JSON.parse(localStorage.getItem("results"))
+|| [];
+
+records.push(result);
+
+localStorage.setItem(
+"results",
+JSON.stringify(records)
+);
+
+examPage.classList.add("hidden");
+resultPage.classList.remove("hidden");
+
+resultContent.innerHTML=`
+
+<h3>${result.name}</h3>
+
+<p><b>Roll No:</b> ${result.roll}</p>
+
+<p><b>Topic:</b> ${result.topic}</p>
+
+<p><b>Score:</b> ${score}/15</p>
+
+<p><b>Percentage:</b> ${percentage}%</p>
+
+`;
+}
+
+function loadAdminData(){
+
+let records=
+JSON.parse(localStorage.getItem("results"))
+|| [];
+
+let html="";
+
+records.forEach(r=>{
+
+html+=`
+<tr>
+<td>${r.name}</td>
+<td>${r.roll}</td>
+<td>${r.topic}</td>
+<td>${r.score}/15</td>
+<td>${r.percentage}%</td>
+</tr>
+`;
+});
+
+adminTable.innerHTML=html;
+}
+
+</script>
+
+</body>
+</html>
